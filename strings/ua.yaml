@@ -6,4 +6,4 @@ usage: |
   <code>/currency 100 usd uah</code>
 
 invalid_currency: Currency is invalid
-error: Error while executing the command
+error: Error while executing the command. Check bot logs.
