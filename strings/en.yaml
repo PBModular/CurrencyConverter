@@ -1,0 +1,9 @@
+usage: |
+  <b>Usage:</b>
+  <code>/currency number source_currency target_currency</code>
+  
+  <b>For example:</b> 
+  <code>/currency 100 usd uah</code>
+
+invalid_currency: Currency is invalid
+error: Error while executing the command
