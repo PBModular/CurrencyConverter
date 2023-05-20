@@ -25,7 +25,7 @@ class CurrencyModule(BaseModule):
 
             ratio = data["rates"][target_currency] / data["rates"][source_currency]
             rate = data["rates"][target_currency]
-            result = float(number) * rate
+            result = round(float(number) * rate, 2)
 
             message.reply(f"1 {source_currency} = {ratio} {target_currency}\n{number} {source_currency} = {result} {target_currency}")
 
