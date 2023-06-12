@@ -1,9 +1,10 @@
 usage: |
-  <b>Usage:</b>
-  <code>/currency number source_currency target_currency</code>
+  <b>Використання:</b>
+  <code>/currency number початкова_0валюта цільова_валюта</code>
   
-  <b>For example:</b> 
+  <b>Наприклад:</b> 
   <code>/currency 100 usd uah</code>
 
-invalid_currency: Currency is invalid
-error: Error while executing the command. Check bot logs.
+invalid_currency: Валюта недійсна!
+same_currency: Вихідна та цільова валюти однакові!
+error: Помилка під час виконання команди. Перевірте логи бота.
