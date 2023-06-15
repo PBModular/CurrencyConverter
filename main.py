@@ -21,7 +21,7 @@ class CurrencyModule(BaseModule):
     def currency_command(self, client: Client, message: Message):
         command_parts = message.text.split(" ")
 
-        if len(command_parts) < 3:
+        if len(command_parts) < 3 and not command_parts[1].isnumeric():
             message.reply(self.S["usage"])
             return
 
