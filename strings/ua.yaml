@@ -4,7 +4,8 @@ usage: |
   
   <b>Наприклад:</b> 
   <code>/currency 100 usd uah</code>
-
+  <code>/currency 100 usd</code>
+  
 invalid_currency: Валюта недійсна!
 same_currency: Вихідна та цільова валюти однакові!
 error: Помилка під час виконання команди. Перевірте логи бота.
