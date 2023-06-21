@@ -13,27 +13,26 @@ class CurrencyModule(BaseModule):
             with open("flags.json", "r") as file:
                 data = json.load(file)
                 self.FLAG_CODES = data.get("flag_codes", {})
-            
         except Exception as e:
             self.logger.error(e)
 
     @command("currency")
-    def currency_command(self, client: Client, message: Message):
+    async def currency_command(self, client: Client, message: Message):
         command_parts = message.text.split(" ")
 
         if len(command_parts) < 3 and not command_parts[1].isnumeric():
-            message.reply(self.S["usage"])
+            await message.reply_text(self.S["usage"])
             return
 
         number, source_currency = command_parts[1].upper(), command_parts[2].upper()
         target_currency = command_parts[3].upper() if len(command_parts) > 3 else None
 
         try:
-            response = requests.get(f"{self.API_URL}/{source_currency}")
-            data = response.json()
+            response = await requests.get(f"{self.API_URL}/{source_currency}")
+            data = await response.json()
 
             if source_currency not in data["rates"]:
-                message.reply(self.S["invalid_currency"])
+                await message.reply_text(self.S["invalid_currency"])
                 return
 
             result_message = ""
@@ -45,7 +44,7 @@ class CurrencyModule(BaseModule):
                     if not target_currency:
                         continue
                     
-                    message.reply(self.S["same_currency"])
+                    await message.reply_text(self.S["same_currency"])
                     return
 
                 ratio = data["rates"][target] / data["rates"][source_currency]
@@ -61,8 +60,8 @@ class CurrencyModule(BaseModule):
                     f"{number} {source_currency} = {result} {target}\n\n"
                 )
 
-            message.reply(result_message)
+            await message.reply_text(result_message)
 
         except Exception as e:
             self.logger.error(e)
-            message.reply(self.S["error"])
+            await message.reply_text(self.S["error"])
