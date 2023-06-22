@@ -28,8 +28,8 @@ class CurrencyModule(BaseModule):
         target_currency = command_parts[3].upper() if len(command_parts) > 3 else None
 
         try:
-            response = await requests.get(f"{self.API_URL}/{source_currency}")
-            data = await response.json()
+            response = requests.get(f"{self.API_URL}/{source_currency}")
+            data = response.json()
 
             if source_currency not in data["rates"]:
                 await message.reply_text(self.S["invalid_currency"])
