@@ -24,7 +24,7 @@ class CurrencyModule(BaseModule):
     async def currency_command(self, client: Client, message: Message):
         command_parts = message.text.split(" ")
 
-        if len(command_parts) < 3 and not command_parts[1].isnumeric():
+        if len(command_parts) < 3 or not command_parts[1].isnumeric():
             await message.reply_text(self.S["usage"])
             return
 
@@ -36,10 +36,6 @@ class CurrencyModule(BaseModule):
                 response = await self.fetch_data(session, f"{self.API_URL}/{source_currency}")
                 data = response
                 
-            if source_currency not in data["rates"]:
-                await message.reply_text(self.S["invalid_currency"])
-                return
-
             result_message = ""
 
             target_currencies = [target_currency] if target_currency else ["USD", "EUR", "GBP", "JPY", "CAD"]
@@ -50,6 +46,10 @@ class CurrencyModule(BaseModule):
                         continue
                     
                     await message.reply_text(self.S["same_currency"])
+                    return
+
+                if target not in data["rates"] or source_currency not in data["rates"]:
+                    await message.reply_text(self.S["invalid_currency"])
                     return
 
                 ratio = data["rates"][target] / data["rates"][source_currency]
