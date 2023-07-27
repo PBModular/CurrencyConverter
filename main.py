@@ -1,5 +1,5 @@
 import json
-import requests
+import aiohttp
 from pyrogram.types import Message
 from pyrogram import Client
 from base.module import BaseModule, command
@@ -16,6 +16,10 @@ class CurrencyModule(BaseModule):
         except Exception as e:
             self.logger.error(e)
 
+    async def fetch_data(self, session, url):
+        async with session.get(url) as response:
+            return await response.json()
+    
     @command("currency")
     async def currency_command(self, client: Client, message: Message):
         command_parts = message.text.split(" ")
@@ -28,9 +32,10 @@ class CurrencyModule(BaseModule):
         target_currency = command_parts[3].upper() if len(command_parts) > 3 else None
 
         try:
-            response = requests.get(f"{self.API_URL}/{source_currency}")
-            data = response.json()
-
+            async with aiohttp.ClientSession() as session:
+                response = await self.fetch_data(session, f"{self.API_URL}/{source_currency}")
+                data = response
+                
             if source_currency not in data["rates"]:
                 await message.reply_text(self.S["invalid_currency"])
                 return
